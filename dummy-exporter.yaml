@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: custom-metric-k8s
+  name: custom-metric-k8s
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: custom-metric-k8s
+  template:
+    metadata:
+      labels:
+        run: custom-metric-k8s
+    spec:
+      containers:
+      - args:
+        - ./k8s_dummy_exporter
+        - --metric-name=foo
+        - --metric-value=40
+        - --pod-name=$(POD_NAME)
+        - --namespace=default
+        image: docker.io/mdame/k8s-dummy-exporter:v0.1.0
+        name: k8s-dummy-exporter
+        resources:
+          requests:
+            cpu: 100m
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name

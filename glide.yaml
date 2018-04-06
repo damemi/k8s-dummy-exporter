@@ -1,0 +1,12 @@
+package: github.com/damemi/k8s-dummy-exporter
+import:
+- package: github.com/golang/glog
+- package: github.com/spf13/pflag
+- package: k8s.io/apimachinery
+  subpackages:
+  - pkg/runtime
+  - pkg/runtime/serializer
+- package: k8s.io/client-go
+  subpackages:
+  - kubernetes
+  - rest
